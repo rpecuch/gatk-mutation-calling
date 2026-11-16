@@ -11,6 +11,9 @@ process INDEX_GENOME {
     script:
     // Execute specific script instead: index_ref_genome.sh
     """
-    bash ${projectDir}/${params.scripts}/index_ref_genome.sh ${ref_genome} .
+    echo "Indexing reference genome: ${ref_genome}" > ${ref_genome.baseName}.txt
     """
+    // """
+    // bash ${projectDir}/${params.scripts}/index_ref_genome.sh ${ref_genome} .
+    // """
 }
