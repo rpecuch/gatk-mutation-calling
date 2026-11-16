@@ -26,7 +26,7 @@ workflow {
     reads_ch = Channel.fromFilePairs("${params.reads}/*_{R1,R2}.fastq.gz")
 
     // Index the reference genome
-    // INDEX_GENOME(ref_genome_ch)
+    INDEX_GENOME(ref_genome_ch)
     // Perform quality control on the reads
     FASTQC(reads_ch)
     // // Align and sort the reads against the indexed genome
@@ -34,16 +34,16 @@ workflow {
 
     // Publish outputs
     publish:
-    // indexed_genome = INDEX_GENOME.out
+    indexed_genome = INDEX_GENOME.out
     html_reports = FASTQC.out.html
     zip_reports = FASTQC.out.zip
 }
 
 // Outputs to store
 output {
-    // indexed_genome {
-    //     path "${params.ref.parent}"
-    // }
+    indexed_genome {
+        path "ref_genome/"
+    }
     html_reports {
         path "fastqc/html"
     }
