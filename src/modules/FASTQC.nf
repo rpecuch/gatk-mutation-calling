@@ -2,16 +2,15 @@ process FASTQC {
 
     input:
     // Two input paired-end files per process, all in same directory
-    path read_1
-    path read_2
+    tuple val(sample_id), path(reads)
 
     output:
-    // Output in the same directory as the input files came from
-    path "result.txt"
+    path("*.zip"), emit: zip
+    path("*.html"), emit: html
 
     script:
     // Execute specific script instead: fastq_qc.sh
     """
-    cat ${read_1} > result.txt
+    bash ${projectDir}/${params.scripts}/fastq_qc.sh ${reads[0]} ${reads[1]}
     """
 }

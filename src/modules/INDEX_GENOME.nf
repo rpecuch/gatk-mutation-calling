@@ -6,7 +6,7 @@ process INDEX_GENOME {
 
     output:
     // Output in the same directory as the input file came from
-    path $ref_genome.baseName
+    path "${ref_genome.baseName}.*"
 
     script:
     // Execute specific script instead: index_ref_genome.sh
