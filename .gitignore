@@ -1,5 +1,7 @@
 # Pipeline input and output files
 data/*
+.nextflow*
+work/
 
 # History files
 .Rhistory
