@@ -8,7 +8,7 @@ include { BAM_SORT } from './src/modules/BAM_SORT.nf'
 include { MARK_DUPLICATES } from './src/modules/MARK_DUPLICATES.nf'
 include { HAPLOTYPE_CALLER } from './src/modules/HAPLOTYPE_CALLER.nf'
 include { GENOTYPE_GVCFS } from './src/modules/GENOTYPE_GVCFS.nf'
-// include { FILTER_SNPS } from './src/modules/FILTER_SNPS.nf'
+include { FILTER_SNPS } from './src/modules/FILTER_SNPS.nf'
 
 // Pipeline parameters
 params {
@@ -34,9 +34,6 @@ workflow {
     reference_files = INDEX_GENOME.out.indexed_reference
     .collect()
 
-    // reference_reads = reference_files
-    //     .combine(reads_ch)
-
     ALIGN_REF(reference_files, reads_ch)
     BAM_SORT(ALIGN_REF.out.sam)
 
@@ -46,6 +43,9 @@ workflow {
     // Variant calling
     HAPLOTYPE_CALLER(MARK_DUPLICATES.out.markdup_bam, reference_files)
     GENOTYPE_GVCFS(HAPLOTYPE_CALLER.out.gvcf, reference_files)
+
+    // Filter variants
+    FILTER_SNPS(GENOTYPE_GVCFS.out.snps_vcf)
 
     // Publish outputs
     publish:

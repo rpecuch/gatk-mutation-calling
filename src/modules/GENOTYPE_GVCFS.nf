@@ -8,7 +8,7 @@ process GENOTYPE_GVCFS {
 
     output:
     // Output in outputs directory
-    path("*.g.vcf.gz"), emit: gvcf
+    path("*.snps.vcf.gz"), emit: snps_vcf
 
     script:
     def ref_genome = reference_files.find { it.name.endsWith('.fa') }
