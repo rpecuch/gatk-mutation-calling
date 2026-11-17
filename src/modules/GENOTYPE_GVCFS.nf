@@ -3,15 +3,17 @@ process GENOTYPE_GVCFS {
     input:
     // Single reference genome file
     // one input GVCF file for each process
-    path input_file
+    path reference_files
+    path gvcf
 
     output:
     // Output in outputs directory
-    path "result.txt"
+    path("*.g.vcf.gz"), emit: gvcf
 
     script:
-    // Execute specific script instead: second part of variant_call.sh
+    def ref_genome = reference_files.find { it.name.endsWith('.fa') }
+    // Execute specific script instead: first part of variant_call.sh
     """
-    cat ${input_file} > result.txt
+    bash ${projectDir}/${params.scripts}/genotype_gvcf.sh ${ref_genome} ${gvcf} .
     """
 }

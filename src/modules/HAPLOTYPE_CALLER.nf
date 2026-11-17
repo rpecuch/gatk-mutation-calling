@@ -8,7 +8,7 @@ process HAPLOTYPE_CALLER {
 
     output:
     // Output in outputs directory
-    path "result.txt"
+    path("*.g.vcf.gz"), emit: gvcf
 
     script:
     def ref_genome = reference_files.find { it.name.endsWith('.fa') }
