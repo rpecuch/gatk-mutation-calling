@@ -38,16 +38,16 @@ workflow {
     //     .combine(reads_ch)
 
     ALIGN_REF(reference_files, reads_ch)
-    // BAM_SORT(ALIGN_REF.out.sam)
+    BAM_SORT(ALIGN_REF.out.sam)
 
     // Publish outputs
     publish:
     // indexed_genome = INDEX_GENOME.out
     html_reports = FASTQC.out.html
     zip_reports = FASTQC.out.zip
-    sam_aligned = ALIGN_REF.out.sam
+    // sam_aligned = ALIGN_REF.out.sam
     sam_log = ALIGN_REF.out.log
-    // bam_sorted = BAM_SORT.out.bam
+    bam_sorted = BAM_SORT.out.bam
 }
 
 // Outputs to store
@@ -61,10 +61,13 @@ output {
     zip_reports {
         path "fastqc/zip"
     }
-    sam_aligned {
+    // sam_aligned {
+    //     path ""
+    // }
+    sam_log {
         path ""
     }
-    sam_log {
+    bam_sorted {
         path ""
     }
 }
