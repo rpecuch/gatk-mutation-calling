@@ -5,7 +5,7 @@ include { INDEX_GENOME } from './src/modules/INDEX_GENOME.nf'
 include { FASTQC } from './src/modules/FASTQC.nf'
 include { ALIGN_REF } from './src/modules/ALIGN_REF.nf'
 include { BAM_SORT } from './src/modules/BAM_SORT.nf'
-// include { MARK_DUPLICATES } from './src/modules/MARK_DUPLICATES.nf'
+include { MARK_DUPLICATES } from './src/modules/MARK_DUPLICATES.nf'
 // include { HAPLOTYPE_CALLER } from './src/modules/HAPLOTYPE_CALLER.nf'
 // include { GENOTYPE_GVCFS } from './src/modules/GENOTYPE_GVCFS.nf'
 // include { FILTER_SNPS } from './src/modules/FILTER_SNPS.nf'
@@ -39,6 +39,9 @@ workflow {
 
     ALIGN_REF(reference_files, reads_ch)
     BAM_SORT(ALIGN_REF.out.sam)
+
+    // Mark duplicates in the sorted BAM file
+    MARK_DUPLICATES(BAM_SORT.out.bam)
 
     // Publish outputs
     publish:
