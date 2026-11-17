@@ -6,7 +6,7 @@ include { FASTQC } from './src/modules/FASTQC.nf'
 include { ALIGN_REF } from './src/modules/ALIGN_REF.nf'
 include { BAM_SORT } from './src/modules/BAM_SORT.nf'
 include { MARK_DUPLICATES } from './src/modules/MARK_DUPLICATES.nf'
-// include { HAPLOTYPE_CALLER } from './src/modules/HAPLOTYPE_CALLER.nf'
+include { HAPLOTYPE_CALLER } from './src/modules/HAPLOTYPE_CALLER.nf'
 // include { GENOTYPE_GVCFS } from './src/modules/GENOTYPE_GVCFS.nf'
 // include { FILTER_SNPS } from './src/modules/FILTER_SNPS.nf'
 
@@ -42,6 +42,9 @@ workflow {
 
     // Mark duplicates in the sorted BAM file
     MARK_DUPLICATES(BAM_SORT.out.bam)
+
+    // Variant calling
+    HAPLOTYPE_CALLER(MARK_DUPLICATES.out.markdup_bam, reference_files)
 
     // Publish outputs
     publish:
