@@ -49,32 +49,20 @@ workflow {
 
     // Publish outputs
     publish:
-    // indexed_genome = INDEX_GENOME.out
     html_reports = FASTQC.out.html
     zip_reports = FASTQC.out.zip
-    // sam_aligned = ALIGN_REF.out.sam
-    sam_log = ALIGN_REF.out.log
-    bam_sorted = BAM_SORT.out.bam
+    filtered_snps_vcf = FILTER_SNPS.out.snps_filtered_vcf
 }
 
 // Outputs to store
 output {
-    // indexed_genome {
-    //     path "ref_genome/"
-    // }
     html_reports {
         path "fastqc/html"
     }
     zip_reports {
         path "fastqc/zip"
     }
-    // sam_aligned {
-    //     path ""
-    // }
-    sam_log {
-        path ""
-    }
-    bam_sorted {
-        path ""
+    filtered_snps_vcf{
+        path "filtered_snps"
     }
 }
