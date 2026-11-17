@@ -19,20 +19,22 @@ mkdir -p "$OUTPUT_DIR"
 # Define output BAM file
 OUTPUT_BAM="$OUTPUT_DIR/${SAMPLE}.sorted.bam"
 
+head -n 20 "$INPUT_SAM"
+
 # Convert SAM to BAM, sort, and index
-samtools view -bS "$INPUT_SAM" | \
-    samtools sort -o "$OUTPUT_BAM" && \
-    samtools index "$OUTPUT_BAM"
+# samtools view -bS "$INPUT_SAM" | \
+#     samtools sort -o "$OUTPUT_BAM" && \
+#     samtools index "$OUTPUT_BAM"
 
 # Check whether sorting and indexing succeeded
-if [ "$?" -ne 0 ]; then
-    echo "Error: BAM sorting or indexing failed."
-    exit 1
-fi
+# if [ "$?" -ne 0 ]; then
+#     echo "Error: BAM sorting or indexing failed."
+#     exit 1
+# fi
 
 # Print alignment statistics
-echo "---------Alignment statistics in BAM file-----------"
-samtools flagstat "$OUTPUT_BAM"
+# echo "---------Alignment statistics in BAM file-----------"
+# samtools flagstat "$OUTPUT_BAM"
 
-echo "BAM sorting and indexing completed successfully!"
-echo "Output BAM: $OUTPUT_BAM"
+# echo "BAM sorting and indexing completed successfully!"
+# echo "Output BAM: $OUTPUT_BAM"
