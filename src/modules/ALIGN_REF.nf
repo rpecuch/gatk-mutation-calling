@@ -5,6 +5,7 @@ process ALIGN_REF {
     // two input paired-end files per process, all in same directory
     path reference_files
     tuple val(sample_id), path(reads)
+    path script_dir
 
     output:
     // Output in outputs directory
@@ -15,6 +16,6 @@ process ALIGN_REF {
     def ref_genome = reference_files.find { it.name.endsWith('.fa') }
     // Execute specific script instead: ref_seq_align.sh
     """
-    bash ${projectDir}/${params.scripts}/ref_seq_align.sh ${ref_genome} ${reads[0]} ${reads[1]} .
+    bash ${script_dir}/ref_seq_align.sh ${ref_genome} ${reads[0]} ${reads[1]} .
     """
 }

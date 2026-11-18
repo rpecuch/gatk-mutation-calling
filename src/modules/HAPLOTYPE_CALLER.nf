@@ -5,6 +5,7 @@ process HAPLOTYPE_CALLER {
     // one input BAM file for each process
     path reference_files
     path dict
+    path script_dir
     tuple path(markdup_bam),
           path(markdup_bam_bai)
 
@@ -18,6 +19,6 @@ process HAPLOTYPE_CALLER {
     def ref_genome = reference_files.find { it.name.endsWith('.fa') }
     // Execute specific script instead: first part of variant_call.sh
     """
-    bash ${projectDir}/${params.scripts}/haplotype_call.sh ${ref_genome} ${markdup_bam} .
+    bash ${script_dir}/haplotype_call.sh ${ref_genome} ${markdup_bam} .
     """
 }

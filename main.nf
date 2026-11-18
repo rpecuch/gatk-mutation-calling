@@ -22,6 +22,7 @@ params {
 workflow {
 
     main:
+    // Set up scripts directory path
     scriptsDir = "${projectDir}/${params.scripts}"
 
     // Collect input parameters
@@ -30,28 +31,28 @@ workflow {
 
     // Index the reference genome
     // TODO: need to make this same replacement for other process calls that use scripts
-    INDEX_GENOME(ref_genome_ch, file("${scriptsDir}"))
+    INDEX_GENOME(ref_genome_ch, file(${scriptsDir}))
     // Perform quality control on the reads
-    FASTQC(reads_ch, file("${scriptsDir}/fastq_qc.sh"))
+    FASTQC(reads_ch, file(${scriptsDir}))
     // Align and sort the reads against the indexed genome
     reference_files = INDEX_GENOME.out.indexed_reference
     .collect()
     genome_dict = INDEX_GENOME.out.dict
     .first()
 
-    ALIGN_REF(reference_files, reads_ch)
-    BAM_SORT(ALIGN_REF.out.sam)
+    ALIGN_REF(reference_files, reads_ch, file(${scriptsDir}))
+    BAM_SORT(ALIGN_REF.out.sam, file(${scriptsDir}))
 
     // Mark duplicates in the sorted BAM file
-    MARK_DUPLICATES(BAM_SORT.out.bam)
+    MARK_DUPLICATES(BAM_SORT.out.bam, file(${scriptsDir}))
 
     // Variant calling
     // ~ 50 minutes to get to this point
-    HAPLOTYPE_CALLER(reference_files, genome_dict, MARK_DUPLICATES.out.marked_bams)
-    GENOTYPE_GVCFS(reference_files, genome_dict, HAPLOTYPE_CALLER.out.gvcf)
+    HAPLOTYPE_CALLER(reference_files, genome_dict, file(${scriptsDir}), MARK_DUPLICATES.out.marked_bams)
+    GENOTYPE_GVCFS(reference_files, genome_dict, file(${scriptsDir}), HAPLOTYPE_CALLER.out.gvcf)
 
     // Filter variants
-    FILTER_SNPS(reference_files, genome_dict, GENOTYPE_GVCFS.out.snps_vcf)
+    FILTER_SNPS(reference_files, genome_dict, file(${scriptsDir}), GENOTYPE_GVCFS.out.snps_vcf)
 
     // Publish outputs
     publish:

@@ -5,6 +5,7 @@ process FILTER_SNPS {
     // one input SNPs file for each process
     path reference_files
     path dict
+    path script_dir
     tuple path(snps_vcf),
           path(snps_vcf_tbi)
 

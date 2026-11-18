@@ -3,6 +3,7 @@ process BAM_SORT {
     input:
     // Input SAM file from alignment
     path sam
+    path script_dir
 
     output:
     // Output in outputs directory
@@ -11,6 +12,6 @@ process BAM_SORT {
     script:
     // Execute specific script instead: sam_to_bam.sh
     """
-    bash ${projectDir}/${params.scripts}/sam_to_bam.sh ${sam} .
+    bash ${script_dir}/sam_to_bam.sh ${sam} .
     """
 }

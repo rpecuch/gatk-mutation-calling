@@ -5,6 +5,7 @@ process GENOTYPE_GVCFS {
     // one input GVCF file for each process
     path reference_files
     path dict
+    path script_dir
     tuple path(gvcf),
           path(gvcf_tbi)
 
@@ -19,6 +20,6 @@ process GENOTYPE_GVCFS {
     def ref_genome = reference_files.find { it.name.endsWith('.fa') }
     // Execute specific script instead: first part of variant_call.sh
     """
-    bash ${projectDir}/${params.scripts}/genotype_gvcf.sh ${ref_genome} ${gvcf} .
+    bash ${script_dir}/genotype_gvcf.sh ${ref_genome} ${gvcf} .
     """
 }
