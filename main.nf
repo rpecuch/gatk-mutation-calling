@@ -22,14 +22,17 @@ params {
 workflow {
 
     main:
+    scriptsDir = "${projectDir}/${params.scripts}"
+
     // Collect input parameters
     ref_genome_ch = channel.fromPath(params.ref)
     reads_ch = Channel.fromFilePairs("${params.reads}/*_{R1,R2}.fastq.gz")
 
     // Index the reference genome
-    INDEX_GENOME(ref_genome_ch)
+    // TODO: need to make this same replacement for other process calls that use scripts
+    INDEX_GENOME(ref_genome_ch, file("${scriptsDir}"))
     // Perform quality control on the reads
-    FASTQC(reads_ch)
+    FASTQC(reads_ch, file("${scriptsDir}/fastq_qc.sh"))
     // Align and sort the reads against the indexed genome
     reference_files = INDEX_GENOME.out.indexed_reference
     .collect()
