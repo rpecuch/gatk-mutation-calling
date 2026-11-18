@@ -1,6 +1,10 @@
 FROM anaconda/miniconda:latest
 WORKDIR /data
 
+# Install procps for process management tools
+RUN apt-get update && apt-get install -y procps \
+    && rm -rf /var/lib/apt/lists/*
+
 # Copy Conda environment definition
 COPY environment.yml .
 

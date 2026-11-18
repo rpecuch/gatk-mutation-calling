@@ -26,7 +26,13 @@ bwa mem -t 8 \
     "$REFERENCE_FASTA" \
     "$R1_FASTQ" \
     "$R2_FASTQ" \
-    > "$OUTPUT_SAM"
+    > "$OUTPUT_SAM" \
+    2> bwa_error.log
+# bwa mem -t 8 \
+#     "$REFERENCE_FASTA" \
+#     "$R1_FASTQ" \
+#     "$R2_FASTQ" \
+#     > "$OUTPUT_SAM"
 
 # Print alignment statistics
 echo "---------Alignment statistics in SAM file-----------"

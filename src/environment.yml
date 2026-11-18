@@ -14,3 +14,4 @@ dependencies:
   - r-base=4.5.3
   - r-upsetr=1.4.1
   - r-vcfr=1.16.0
+  - nextflow=26.10.6
