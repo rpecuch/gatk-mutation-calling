@@ -19,7 +19,6 @@ SAMPLE=$(basename "$SNPS_VCF" .snps.vcf.gz)
 mkdir -p "$OUTPUT_DIR"
 
 # Define output file paths
-SNPS_VCF="$OUTPUT_DIR/${SAMPLE}.snps.vcf.gz"
 FILTERED_VCF="$OUTPUT_DIR/${SAMPLE}.snps.filtered.vcf.gz"
 
 # Filter SNPs based on quality metrics

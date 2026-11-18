@@ -2,6 +2,7 @@
 data/*
 .nextflow*
 work/
+report-*
 
 # History files
 .Rhistory

@@ -6,7 +6,10 @@ process MARK_DUPLICATES {
 
     output:
     // Output in outputs directory
-    path("*.markdup.bam"), emit: markdup_bam
+    path("*.fixedRG.bam"), emit: fixedRG_bam
+    tuple path("*.markdup.bam"),
+          path("*.markdup.bam.bai"),
+          emit: marked_bams
 
     script:
     // Execute specific script instead: gatk_prepare.sh

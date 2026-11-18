@@ -33,6 +33,8 @@ workflow {
     // Align and sort the reads against the indexed genome
     reference_files = INDEX_GENOME.out.indexed_reference
     .collect()
+    genome_dict = INDEX_GENOME.out.dict
+    .first()
 
     ALIGN_REF(reference_files, reads_ch)
     BAM_SORT(ALIGN_REF.out.sam)
@@ -41,11 +43,12 @@ workflow {
     MARK_DUPLICATES(BAM_SORT.out.bam)
 
     // Variant calling
-    HAPLOTYPE_CALLER(MARK_DUPLICATES.out.markdup_bam, reference_files)
-    GENOTYPE_GVCFS(HAPLOTYPE_CALLER.out.gvcf, reference_files)
+    // ~ 50 minutes to get to this point
+    HAPLOTYPE_CALLER(reference_files, genome_dict, MARK_DUPLICATES.out.marked_bams)
+    GENOTYPE_GVCFS(reference_files, genome_dict, HAPLOTYPE_CALLER.out.gvcf)
 
     // Filter variants
-    FILTER_SNPS(GENOTYPE_GVCFS.out.snps_vcf)
+    FILTER_SNPS(reference_files, genome_dict, GENOTYPE_GVCFS.out.snps_vcf)
 
     // Publish outputs
     publish:
