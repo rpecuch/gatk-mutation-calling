@@ -29,5 +29,5 @@ gatk HaplotypeCaller \
     --sample-name "$SAMPLE"
 
 # Inspect GVCF records
-echo "---------Inspecting GVCF records-----------"
-bcftools view -H "$GVCF" | head
+# echo "---------Inspecting GVCF records-----------"
+# bcftools view -H "$GVCF" | head
