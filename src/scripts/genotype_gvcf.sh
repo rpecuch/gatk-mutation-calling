@@ -35,5 +35,5 @@ gatk SelectVariants \
     -O "$SNPS_VCF"
 
 # Count SNP records
-echo "---------Number of SNP records-----------"
-bcftools view -v snps -H "$SNPS_VCF" | wc -l
+# echo "---------Number of SNP records-----------"
+# bcftools view -v snps -H "$SNPS_VCF" | wc -l

@@ -15,7 +15,8 @@ params {
     ref: Path
     scripts: Path
     outdir: Path
-    reads: Path
+    reads: String
+    snp_filters: String
 }
 
 // Full workflow definition
@@ -26,8 +27,11 @@ workflow {
     scriptsDir = "${projectDir}/${params.scripts}"
 
     // Collect input parameters
+    println "SNP filter parameter: ${params.snp_filters}"
+    // println "READS PARAMETER: ${params.reads}"
     ref_genome_ch = channel.fromPath(params.ref)
     reads_ch = Channel.fromFilePairs("${params.reads}/*_{R1,R2}.fastq.gz")
+    // reads_ch = Channel.fromFilePairs(params.reads)
 
     // Index the reference genome
     INDEX_GENOME(ref_genome_ch, file("${scriptsDir}"))
@@ -57,6 +61,7 @@ workflow {
     publish:
     html_reports = FASTQC.out.html
     zip_reports = FASTQC.out.zip
+    align_output = ALIGN_REF.out.log
     filtered_snps_vcf = FILTER_SNPS.out.snps_filtered_vcf
 }
 
@@ -67,6 +72,9 @@ output {
     }
     zip_reports {
         path "fastqc/zip"
+    }
+    align_output {
+        path "align"
     }
     filtered_snps_vcf{
         path "filtered_snps"

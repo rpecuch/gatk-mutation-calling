@@ -30,7 +30,7 @@ gatk VariantFiltration \
     -O "$FILTERED_VCF"
 
 # Count passing SNP records
-echo "---------Number of passing SNP records-----------"
-bcftools view -f PASS -H "$FILTERED_VCF" | wc -l
+# echo "---------Number of passing SNP records-----------"
+# bcftools view -f PASS -H "$FILTERED_VCF" | wc -l
 
 echo "Variant calling and filtering completed successfully!"
